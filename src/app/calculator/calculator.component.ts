@@ -8,17 +8,17 @@ import { Component } from '@angular/core';
   styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
-
   ngOnInit() {
     this.getWebSocket();
   }
 
   getWebSocket() {
-    console.log("test")
+    console.log('test');
     let ws = new WebSocket('wss://stream.binance.com:9443/ws/btceur@trade');
 
     ws.onmessage = (event) => {
-      console.log(event.data);
-    }
+      let stockObject = JSON.parse(event.data);
+      console.log(stockObject.p);
+    };
   }
 }
