@@ -15,8 +15,8 @@ export class CalculatorComponent {
   getWebSocket() {
     console.log('test');
     let ws = new WebSocket('wss://stream.binance.com:9443/ws/btceur@trade');
-    let stockPriceElement = document.getElementById('stockPrice');
-    let lastPrice = null;
+    let stockPriceElement: any = document.getElementById('stockPrice');
+    let lastPrice: any = null;
 
     ws.onmessage = (event) => {
       let stockObject = JSON.parse(event.data);
