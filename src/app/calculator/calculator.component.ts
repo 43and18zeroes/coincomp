@@ -20,7 +20,7 @@ export class CalculatorComponent {
 
     ws.onmessage = (event) => {
       let stockObject = JSON.parse(event.data);
-      let price: any = parseFloat(stockObject.p).toFixed(2);
+      let price: any = parseFloat(stockObject.p).toFixed(2); // toFixed parses the number to a string
       stockPriceElement.innerText = price;
       stockPriceElement.style.color = !lastPrice || lastPrice === price ? 'black' : price > lastPrice ? 'green' : 'red';
       lastPrice = price;
@@ -30,7 +30,7 @@ export class CalculatorComponent {
 
   updateEurAmount(price: any) {
     let btcAmount: any = document.getElementById('btcAmount');
-    let calculateEur = price * btcAmount.value;
+    let calculateEur = price * btcAmount.value; // the * operator parses two string into a number
     let currentEuros: any = document.getElementById('currentEuros');
     currentEuros.innerText = calculateEur;
   }
