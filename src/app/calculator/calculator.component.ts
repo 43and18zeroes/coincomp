@@ -16,14 +16,19 @@ export class CalculatorComponent {
   @ViewChild('btcAmount', { static: true }) btcAmount!: ElementRef;
   @ViewChild('currentEuros', { static: true }) currentEuros!: ElementRef;
 
+  serverInfoReceived: boolean = false;
+
   ngOnInit() {
     this.getWebSocket();
   }
 
   ngAfterViewInit() {
     this.btcAmount.nativeElement.addEventListener('input', () => {
-      const price = this.btcPriceElement.nativeElement.innerText;
-      this.updateEurAmount(price);
+      if (this.serverInfoReceived) {
+        const price = this.btcPriceElement.nativeElement.innerText;
+        console.log(typeof(price));
+        this.updateEurAmount(price);
+      }
     });
   }
 
@@ -32,6 +37,7 @@ export class CalculatorComponent {
     let lastPrice: string;
 
     ws.onmessage = (event) => {
+      this.serverInfoReceived = true;
       let stockObject: StockPriceMessage = JSON.parse(event.data);
       let price: string = parseFloat(stockObject.p).toFixed(2);
       this.btcPriceElement.nativeElement.innerText = price;
