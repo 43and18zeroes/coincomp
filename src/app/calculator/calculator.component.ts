@@ -1,5 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
+interface StockPriceMessage {
+  p: string;
+  // Add other properties as needed
+}
+
 @Component({
   selector: 'app-calculator',
   standalone: true,
@@ -9,17 +14,18 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class CalculatorComponent {
   @ViewChild('stockPriceElement', {static: true}) stockPriceElement!: ElementRef;
+
   ngOnInit() {
     this.getWebSocket();
   }
 
   getWebSocket() {
     let ws = new WebSocket('wss://stream.binance.com:9443/ws/btceur@trade');
-    let lastPrice: any = null;
+    let lastPrice: string;
 
     ws.onmessage = (event) => {
-      let stockObject = JSON.parse(event.data);
-      let price: any = parseFloat(stockObject.p).toFixed(2); // toFixed parses the number to a string
+      let stockObject: StockPriceMessage = JSON.parse(event.data);
+      let price: string = parseFloat(stockObject.p).toFixed(2); // toFixed parses the number to a string
       this.stockPriceElement.nativeElement.innerText = price;
       this.stockPriceElement.nativeElement.style.color = !lastPrice || lastPrice === price ? 'black' : price > lastPrice ? 'green' : 'red';
       lastPrice = price;
