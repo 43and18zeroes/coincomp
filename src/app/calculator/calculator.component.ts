@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 
 interface StockPriceMessage {
   p: string;
-  // Add other properties as needed
 }
 
 @Component({
@@ -13,9 +12,9 @@ interface StockPriceMessage {
   styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
-  @ViewChild('stockPriceElement', {static: true}) stockPriceElement!: ElementRef;
-  @ViewChild('btcAmount', {static: true}) btcAmount!: ElementRef;
-  @ViewChild('currentEuros', {static: true}) currentEuros!: ElementRef;
+  @ViewChild('btcPriceElement', { static: true }) btcPriceElement!: ElementRef;
+  @ViewChild('btcAmount', { static: true }) btcAmount!: ElementRef;
+  @ViewChild('currentEuros', { static: true }) currentEuros!: ElementRef;
 
   ngOnInit() {
     this.getWebSocket();
@@ -28,15 +27,20 @@ export class CalculatorComponent {
     ws.onmessage = (event) => {
       let stockObject: StockPriceMessage = JSON.parse(event.data);
       let price: string = parseFloat(stockObject.p).toFixed(2);
-      this.stockPriceElement.nativeElement.innerText = price;
-      this.stockPriceElement.nativeElement.style.color = !lastPrice || lastPrice === price ? 'black' : price > lastPrice ? 'green' : 'red';
+      this.btcPriceElement.nativeElement.innerText = price;
+      this.btcPriceElement.nativeElement.style.color =
+        !lastPrice || lastPrice === price
+          ? 'black'
+          : price > lastPrice
+          ? 'green'
+          : 'red';
       lastPrice = price;
       this.updateEurAmount(price);
     };
   }
 
   updateEurAmount(price: any) {
-    let calculateEur = price * this.btcAmount.nativeElement.value;
+    let calculateEur: number = price * this.btcAmount.nativeElement.value;
     this.currentEuros.nativeElement.innerText = calculateEur;
   }
 }
