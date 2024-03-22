@@ -14,6 +14,7 @@ interface StockPriceMessage {
 })
 export class CalculatorComponent {
   @ViewChild('stockPriceElement', {static: true}) stockPriceElement!: ElementRef;
+  @ViewChild('btcAmount', {static: true}) btcAmount!: ElementRef;
 
   ngOnInit() {
     this.getWebSocket();
@@ -34,8 +35,8 @@ export class CalculatorComponent {
   }
 
   updateEurAmount(price: any) {
-    let btcAmount: any = document.getElementById('btcAmount');
-    let calculateEur = price * btcAmount.value; // the * operator parses two string into a number
+    // let btcAmount: any = document.getElementById('btcAmount');
+    let calculateEur = price * this.btcAmount.nativeElement.value; // the * operator parses two string into a number
     let currentEuros: any = document.getElementById('currentEuros');
     currentEuros.innerText = calculateEur;
   }
