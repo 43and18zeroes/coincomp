@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-calculator',
@@ -8,21 +8,20 @@ import { Component } from '@angular/core';
   styleUrl: './calculator.component.scss',
 })
 export class CalculatorComponent {
+  @ViewChild('stockPriceElement', {static: true}) stockPriceElement!: ElementRef;
   ngOnInit() {
     this.getWebSocket();
   }
 
   getWebSocket() {
-    console.log('test');
     let ws = new WebSocket('wss://stream.binance.com:9443/ws/btceur@trade');
-    let stockPriceElement: any = document.getElementById('stockPrice');
     let lastPrice: any = null;
 
     ws.onmessage = (event) => {
       let stockObject = JSON.parse(event.data);
       let price: any = parseFloat(stockObject.p).toFixed(2); // toFixed parses the number to a string
-      stockPriceElement.innerText = price;
-      stockPriceElement.style.color = !lastPrice || lastPrice === price ? 'black' : price > lastPrice ? 'green' : 'red';
+      this.stockPriceElement.nativeElement.innerText = price;
+      this.stockPriceElement.nativeElement.style.color = !lastPrice || lastPrice === price ? 'black' : price > lastPrice ? 'green' : 'red';
       lastPrice = price;
       this.updateEurAmount(price);
     };
