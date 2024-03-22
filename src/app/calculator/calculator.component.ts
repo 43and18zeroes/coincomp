@@ -48,11 +48,11 @@ export class CalculatorComponent {
           ? 'green'
           : 'red';
       lastPrice = price;
-      this.updateEurAmount(price);
+      this.updateEurAmount(+price);
     };
   }
 
-  updateEurAmount(price: any) {
+  updateEurAmount(price: number) {
     let calculateEur: number = price * this.btcAmount.nativeElement.value;
     this.currentEuros.nativeElement.innerText = calculateEur;
   }
