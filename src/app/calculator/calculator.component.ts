@@ -15,11 +15,9 @@ interface StockPriceMessage {
 export class CalculatorComponent {
   @ViewChild('btcPriceElement', { static: true }) btcPriceElement!: ElementRef;
   @ViewChild('btcAmount', { static: true }) btcAmount!: ElementRef;
-  @ViewChild('currentEuros', { static: true }) currentEuros!: ElementRef;
-
   price: any;
-
-  serverInfoReceived: boolean = false;
+  currentEuros: any;
+  serverInfoReceived = false;
 
   ngOnInit() {
     this.getWebSocket();
@@ -33,7 +31,6 @@ export class CalculatorComponent {
       this.serverInfoReceived = true;
       let stockObject: StockPriceMessage = JSON.parse(event.data);
       this.price = parseFloat(stockObject.p).toFixed(2);
-      // this.btcPriceElement.nativeElement.innerText = this.price;
       this.btcPriceElement.nativeElement.style.color =
         !lastPrice || lastPrice === this.price
           ? 'black'
@@ -47,9 +44,7 @@ export class CalculatorComponent {
 
   updateEurAmount() {
     if (!this.serverInfoReceived) return;
-    // const price = parseFloat(this.btcPriceElement.nativeElement.innerText);
-    let calculateEur: number =
+    this.currentEuros =
       this.price * parseFloat(this.btcAmount.nativeElement.value);
-    this.currentEuros.nativeElement.innerText = calculateEur.toFixed(2);
   }
 }
