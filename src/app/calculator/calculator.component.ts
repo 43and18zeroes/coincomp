@@ -22,16 +22,6 @@ export class CalculatorComponent {
     this.getWebSocket();
   }
 
-  ngAfterViewInit() {
-    // this.btcAmount.nativeElement.addEventListener('input', () => {
-    //   if (this.serverInfoReceived) {
-    //     const price = this.btcPriceElement.nativeElement.innerText;
-    //     console.log(typeof(price));
-    //     this.updateEurAmount(price);
-    //   }
-    // });
-  }
-
   getWebSocket() {
     let ws = new WebSocket('wss://stream.binance.com:9443/ws/btceur@trade');
     let lastPrice: string;
