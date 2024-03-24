@@ -1,6 +1,6 @@
 <h1>Bitcoin Calculator</h1>
 
-<h2>Bitcoin in Euros: <span #btcPriceElement>Waiting for server...</span></h2>
+<h2>Bitcoin in Euros: <span #btcPriceElement>{{ price | currency:'EUR' }}</span></h2>
 
 <label for="btcAmount">Bitcoin Amount: </label>
 <input type="number" #btcAmount (input)="updateEurAmount()" value="0.00147641" />
