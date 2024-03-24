@@ -23,13 +23,13 @@ export class CalculatorComponent {
   }
 
   ngAfterViewInit() {
-    this.btcAmount.nativeElement.addEventListener('input', () => {
-      if (this.serverInfoReceived) {
-        const price = this.btcPriceElement.nativeElement.innerText;
-        console.log(typeof(price));
-        this.updateEurAmount(price);
-      }
-    });
+    // this.btcAmount.nativeElement.addEventListener('input', () => {
+    //   if (this.serverInfoReceived) {
+    //     const price = this.btcPriceElement.nativeElement.innerText;
+    //     console.log(typeof(price));
+    //     this.updateEurAmount(price);
+    //   }
+    // });
   }
 
   getWebSocket() {
@@ -48,12 +48,15 @@ export class CalculatorComponent {
           ? 'green'
           : 'red';
       lastPrice = price;
-      this.updateEurAmount(+price);
+      this.updateEurAmount();
     };
   }
 
-  updateEurAmount(price: number) {
-    let calculateEur: number = price * this.btcAmount.nativeElement.value;
-    this.currentEuros.nativeElement.innerText = calculateEur;
+  updateEurAmount() {
+    if (!this.serverInfoReceived) return;
+    const price = parseFloat(this.btcPriceElement.nativeElement.innerText);
+    let calculateEur: number =
+      price * parseFloat(this.btcAmount.nativeElement.value);
+    this.currentEuros.nativeElement.innerText = calculateEur.toFixed(2);
   }
 }
