@@ -1,11 +1,19 @@
-<h2>Bitcoin Price: <span #btcPriceElement>
+<h2>
+  Bitcoin Price:
+  <span #btcPriceElement>
     <ng-container *ngIf="price !== undefined; else waitingForServer">
-      {{ price | currency:'EUR' }}
+      {{ price | currency : "EUR" }}
     </ng-container>
     <ng-template #waitingForServer>Waiting for Server...</ng-template>
-  </span></h2>
-  
-  <label for="btcAmount">Bitcoin Amount: </label>
-  <input type="number" #btcAmount (input)="updateEurAmount()" value="0.00147641" />
-  
-  <h2>Calculated Amount: {{ currentEuros | currency:'EUR' }}</h2>
+  </span>
+</h2>
+
+<label for="btcAmount">Bitcoin Amount: </label>
+<input
+  type="number"
+  #btcAmount
+  (input)="updateEurAmount()"
+  value="0.00147641"
+/>
+
+<h2>Calculated Amount: {{ currentEuros | currency : "EUR" }}</h2>
